@@ -170,6 +170,143 @@
             background: linear-gradient(135deg, #f59e0b, #d97706);
         }
 
+        .menu-card-icon.writing {
+            background: linear-gradient(135deg, #ec4899, #be185d);
+        }
+
+        .menu-card.locked {
+            position: relative;
+        }
+
+        .menu-card .lock-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #000;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(251, 191, 36, 0.4);
+        }
+
+        /* Premium Modal */
+        .premium-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 300;
+            padding: 20px;
+        }
+
+        .premium-modal.show {
+            display: flex;
+        }
+
+        .premium-content {
+            background: linear-gradient(145deg, #1a1a25, #12121a);
+            border-radius: 24px;
+            padding: 30px;
+            text-align: center;
+            max-width: 350px;
+            border: 2px solid rgba(251, 191, 36, 0.3);
+            box-shadow: 0 0 50px rgba(251, 191, 36, 0.2);
+        }
+
+        .premium-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        .premium-content h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .premium-content p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .premium-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        .premium-price span {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        .premium-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #000;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .premium-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(251, 191, 36, 0.5);
+        }
+
+        .premium-close {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .premium-features {
+            text-align: left;
+            margin: 20px 0;
+            padding: 15px;
+            background: var(--glass-bg);
+            border-radius: 12px;
+        }
+
+        .premium-features li {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .premium-features li::before {
+            content: '✓';
+            color: #22c55e;
+            font-weight: bold;
+        }
+
         .menu-card-content h3 {
             font-size: 1.1rem;
             font-weight: 600;
@@ -826,6 +963,100 @@
             font-weight: 600;
         }
 
+        /* Writing Mode Styles */
+        .writing-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .input-label .badge {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .input-label .badge.unofficial {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+
+        .input-label .badge.official {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+
+        .time-input {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-card);
+            border: 2px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .time-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .time-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .time-input.correct {
+            border-color: var(--accent-success);
+            background: rgba(34, 197, 94, 0.1);
+        }
+
+        .time-input.incorrect {
+            border-color: var(--accent-error);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .input-feedback {
+            font-size: 0.8rem;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .input-feedback.show {
+            display: block;
+        }
+
+        .input-feedback.correct {
+            color: var(--accent-success);
+        }
+
+        .input-feedback.incorrect {
+            color: var(--accent-error);
+        }
+
+        .game-header h1.writing {
+            background: linear-gradient(135deg, #ec4899, #be185d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
         /* Responsive */
         @media (max-width: 380px) {
             .clock {
@@ -880,6 +1111,15 @@
                     <div class="menu-card-content">
                         <h3>Forma Oficial</h3>
                         <p>Formal: sieben Uhr dreißig</p>
+                    </div>
+                    <span class="menu-card-arrow">→</span>
+                </div>
+                <div class="menu-card locked" onclick="showPremiumModal()">
+                    <span class="lock-badge">🔒 PREMIUM</span>
+                    <div class="menu-card-icon writing">✍️</div>
+                    <div class="menu-card-content">
+                        <h3>Modo Escritura</h3>
+                        <p>Escribe tú la hora completa</p>
                     </div>
                     <span class="menu-card-arrow">→</span>
                 </div>
@@ -1166,9 +1406,143 @@
                 </div>
             </div>
         </div>
+
+        <!-- ========== WRITING GAME SCREEN ========== -->
+        <div class="screen" id="writingScreen">
+            <div class="game-header">
+                <button class="back-btn" onclick="showScreen('homeScreen')">←</button>
+                <h1 id="writingModeTitle" class="writing">✍️ Modo Escritura</h1>
+            </div>
+
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-value" id="writingStreak">0</div>
+                    <div class="stat-label">Racha</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value correct" id="writingCorrect">0</div>
+                    <div class="stat-label">Correctas</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value incorrect" id="writingIncorrect">0</div>
+                    <div class="stat-label">Errores</div>
+                </div>
+            </div>
+
+            <div class="clock-container">
+                <div class="clock">
+                    <div class="clock-face">
+                        <span class="clock-number n12">12</span>
+                        <span class="clock-number n1">1</span>
+                        <span class="clock-number n2">2</span>
+                        <span class="clock-number n3">3</span>
+                        <span class="clock-number n4">4</span>
+                        <span class="clock-number n5">5</span>
+                        <span class="clock-number n6">6</span>
+                        <span class="clock-number n7">7</span>
+                        <span class="clock-number n8">8</span>
+                        <span class="clock-number n9">9</span>
+                        <span class="clock-number n10">10</span>
+                        <span class="clock-number n11">11</span>
+                    </div>
+                    <div class="hour-hand" id="writingHourHand"></div>
+                    <div class="minute-hand" id="writingMinuteHand"></div>
+                    <div class="clock-center"></div>
+                </div>
+            </div>
+
+            <div class="digital-time" id="writingDigitalTime">07:30</div>
+
+            <div class="writing-section">
+                <div class="input-group">
+                    <label class="input-label">
+                        <span class="badge unofficial">No Oficial</span>
+                        Escribe la forma coloquial:
+                    </label>
+                    <input type="text" class="time-input" id="unofficialInput" placeholder="Es ist..."
+                        autocomplete="off" autocapitalize="off">
+                    <div class="input-feedback" id="unofficialFeedback"></div>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">
+                        <span class="badge official">Oficial</span>
+                        Escribe la forma formal:
+                    </label>
+                    <input type="text" class="time-input" id="officialInput" placeholder="Es ist..." autocomplete="off"
+                        autocapitalize="off">
+                    <div class="input-feedback" id="officialFeedback"></div>
+                </div>
+
+                <div class="buttons">
+                    <button class="btn btn-secondary" onclick="clearWritingAnswer()">🔄 Limpiar</button>
+                    <button class="btn btn-primary" onclick="checkWritingAnswer()">✓ Comprobar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Premium Modal -->
+    <div class="premium-modal" id="premiumModal">
+        <div class="premium-content" id="premiumStep1">
+            <div class="premium-icon">👑</div>
+            <h2>Modo Escritura Premium</h2>
+            <p>Desbloquea el modo más desafiante y mejora tu alemán escribiendo las horas tú mismo.</p>
+
+            <ul class="premium-features">
+                <li>Escribe la forma oficial y no oficial</li>
+                <li>Feedback instantáneo detallado</li>
+                <li>Sin límite de intentos</li>
+                <li>Estadísticas independientes</li>
+            </ul>
+
+            <div class="premium-price">2,99€ <span>pago único</span></div>
+
+            <button class="premium-btn" onclick="showSergioMessage()">🔓 Desbloquear Ahora</button>
+            <button class="premium-close" onclick="hidePremiumModal()">Quizás más tarde</button>
+        </div>
+
+        <div class="premium-content" id="premiumStep2" style="display: none;">
+            <div class="premium-icon">😏</div>
+            <h2>¡Genial!</h2>
+            <p style="font-size: 1.1rem; line-height: 1.6;">El próximo día sobornas a Sergio y te dará acceso a esta
+                función.</p>
+
+            <button class="premium-btn" onclick="thankSergio()" style="margin-top: 25px;">
+                👍 Ok gracias, que bueno eres Sergio
+            </button>
+        </div>
     </div>
 
     <script>
+        // ========== PREMIUM FUNCTIONS ==========
+        function showPremiumModal() {
+            document.getElementById('premiumStep1').style.display = 'block';
+            document.getElementById('premiumStep2').style.display = 'none';
+            document.getElementById('premiumModal').classList.add('show');
+        }
+
+        function hidePremiumModal() {
+            document.getElementById('premiumModal').classList.remove('show');
+        }
+
+        function showSergioMessage() {
+            document.getElementById('premiumStep1').style.display = 'none';
+            document.getElementById('premiumStep2').style.display = 'block';
+        }
+
+        function thankSergio() {
+            hidePremiumModal();
+            showScreen('homeScreen');
+        }
+
+        // Close modal on outside click
+        document.getElementById('premiumModal').addEventListener('click', (e) => {
+            if (e.target.id === 'premiumModal') {
+                hidePremiumModal();
+            }
+        });
+
         // ========== SCREEN MANAGEMENT ==========
         function showScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -1449,6 +1823,143 @@
             document.getElementById('correct').textContent = stats.correct;
             document.getElementById('incorrect').textContent = stats.incorrect;
         }
+
+        // ========== WRITING MODE LOGIC ==========
+        let writingStats = { streak: 0, correct: 0, incorrect: 0 };
+        let writingHour = 7;
+        let writingMinute = 30;
+        let correctUnofficialAnswer = '';
+        let correctOfficialAnswer = '';
+
+        function startWritingGame() {
+            writingStats = { streak: 0, correct: 0, incorrect: 0 };
+            updateWritingStats();
+            showScreen('writingScreen');
+            generateWritingTime();
+        }
+
+        function updateWritingClock(hour, minute) {
+            const hourHand = document.getElementById('writingHourHand');
+            const minuteHand = document.getElementById('writingMinuteHand');
+            const digitalTime = document.getElementById('writingDigitalTime');
+
+            const hourDeg = ((hour % 12) * 30) + (minute * 0.5);
+            const minuteDeg = minute * 6;
+
+            hourHand.style.transform = `rotate(${hourDeg}deg)`;
+            minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
+
+            const displayHour = String(hour).padStart(2, '0');
+            const displayMinute = String(minute).padStart(2, '0');
+            digitalTime.textContent = `${displayHour}:${displayMinute}`;
+        }
+
+        function generateWritingTime() {
+            // Clear inputs
+            document.getElementById('unofficialInput').value = '';
+            document.getElementById('officialInput').value = '';
+            document.getElementById('unofficialInput').className = 'time-input';
+            document.getElementById('officialInput').className = 'time-input';
+            document.getElementById('unofficialFeedback').className = 'input-feedback';
+            document.getElementById('officialFeedback').className = 'input-feedback';
+
+            // Generate random time (only intervals of 5 minutes)
+            writingHour = Math.floor(Math.random() * 12) + 1;
+            writingMinute = Math.floor(Math.random() * 12) * 5;
+
+            updateWritingClock(writingHour, writingMinute);
+
+            // Generate correct answers
+            correctUnofficialAnswer = generateUnofficialTime(writingHour, writingMinute).join(' ');
+            correctOfficialAnswer = generateOfficialTime(writingHour, writingMinute).join(' ');
+        }
+
+        function normalizeAnswer(text) {
+            return text.toLowerCase()
+                .trim()
+                .replace(/\s+/g, ' ')
+                .replace(/ß/g, 'ss')
+                .replace(/ü/g, 'ue');
+        }
+
+        function checkWritingAnswer() {
+            const unofficialInput = document.getElementById('unofficialInput');
+            const officialInput = document.getElementById('officialInput');
+            const unofficialFeedback = document.getElementById('unofficialFeedback');
+            const officialFeedback = document.getElementById('officialFeedback');
+
+            const userUnofficial = unofficialInput.value.trim();
+            const userOfficial = officialInput.value.trim();
+
+            if (!userUnofficial && !userOfficial) return;
+
+            const unofficialCorrect = normalizeAnswer(userUnofficial) === normalizeAnswer(correctUnofficialAnswer);
+            const officialCorrect = normalizeAnswer(userOfficial) === normalizeAnswer(correctOfficialAnswer);
+
+            // Unofficial feedback
+            if (userUnofficial) {
+                if (unofficialCorrect) {
+                    unofficialInput.className = 'time-input correct';
+                    unofficialFeedback.textContent = '✓ ¡Correcto!';
+                    unofficialFeedback.className = 'input-feedback correct show';
+                } else {
+                    unofficialInput.className = 'time-input incorrect';
+                    unofficialFeedback.textContent = '✗ Correcto: ' + correctUnofficialAnswer;
+                    unofficialFeedback.className = 'input-feedback incorrect show';
+                }
+            }
+
+            // Official feedback
+            if (userOfficial) {
+                if (officialCorrect) {
+                    officialInput.className = 'time-input correct';
+                    officialFeedback.textContent = '✓ ¡Correcto!';
+                    officialFeedback.className = 'input-feedback correct show';
+                } else {
+                    officialInput.className = 'time-input incorrect';
+                    officialFeedback.textContent = '✗ Correcto: ' + correctOfficialAnswer;
+                    officialFeedback.className = 'input-feedback incorrect show';
+                }
+            }
+
+            // Update stats
+            const bothCorrect = unofficialCorrect && officialCorrect;
+            if (bothCorrect) {
+                writingStats.correct++;
+                writingStats.streak++;
+                setTimeout(() => generateWritingTime(), 1500);
+            } else {
+                writingStats.incorrect++;
+                writingStats.streak = 0;
+            }
+
+            updateWritingStats();
+        }
+
+        function clearWritingAnswer() {
+            document.getElementById('unofficialInput').value = '';
+            document.getElementById('officialInput').value = '';
+            document.getElementById('unofficialInput').className = 'time-input';
+            document.getElementById('officialInput').className = 'time-input';
+            document.getElementById('unofficialFeedback').className = 'input-feedback';
+            document.getElementById('officialFeedback').className = 'input-feedback';
+        }
+
+        function updateWritingStats() {
+            document.getElementById('writingStreak').textContent = writingStats.streak;
+            document.getElementById('writingCorrect').textContent = writingStats.correct;
+            document.getElementById('writingIncorrect').textContent = writingStats.incorrect;
+        }
+
+        // Override startGame to handle writing mode
+        const originalStartGame = startGame;
+        startGame = function (mode) {
+            if (mode === 'writing') {
+                startWritingGame();
+            } else {
+                originalStartGame(mode);
+            }
+        };
 
         // Add CSS for study tab content
         const style = document.createElement('style');
