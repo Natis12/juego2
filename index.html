@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🕐 Die Uhrzeit - Practica las Horas en Alemán</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a25;
+            --accent-primary: #6366f1;
+            --accent-secondary: #8b5cf6;
+            --accent-success: #22c55e;
+            --accent-error: #ef4444;
+            --accent-warning: #f59e0b;
+            --accent-info: #3b82f6;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b0;
+            --text-muted: #6b6b80;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ========== SCREEN MANAGEMENT ========== */
+        .screen {
+            display: none;
+            flex-direction: column;
+            min-height: 100vh;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ========== HOME SCREEN ========== */
+        .home-header {
+            text-align: center;
+            padding: 40px 0 30px;
+        }
+
+        .home-header .clock-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .home-header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .home-header p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .menu-section {
+            margin-bottom: 25px;
+        }
+
+        .menu-section h2 {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            padding-left: 5px;
+        }
+
+        .menu-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .menu-card:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: var(--accent-primary);
+            transform: translateY(-2px);
+        }
+
+        .menu-card:active {
+            transform: scale(0.98);
+        }
+
+        .menu-card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .menu-card-icon.unofficial {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+        }
+
+        .menu-card-icon.official {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+
+        .menu-card-icon.study {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .menu-card-content h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .menu-card-content p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .menu-card-arrow {
+            margin-left: auto;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        /* ========== STUDY SCREEN ========== */
+        .study-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .study-header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-warning), #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .study-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: var(--glass-bg);
+            border-radius: 14px;
+            padding: 5px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .study-tab {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .study-tab.active {
+            background: linear-gradient(135deg, var(--accent-warning), #f97316);
+            color: white;
+        }
+
+        .study-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+
+        .study-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .study-card h3 {
+            color: var(--accent-primary);
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .study-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .time-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        .time-table th {
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            padding: 10px;
+            text-align: left;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .time-table td {
+            padding: 10px;
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 0.85rem;
+        }
+
+        .time-table td:first-child {
+            color: var(--accent-primary);
+            font-weight: 600;
+            width: 60px;
+        }
+
+        .time-table td:last-child {
+            color: var(--text-secondary);
+        }
+
+        .highlight-box {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .highlight-box.info {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .highlight-box h4 {
+            color: var(--accent-warning);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .highlight-box.info h4 {
+            color: var(--accent-info);
+        }
+
+        .highlight-box p {
+            margin: 0;
+            font-size: 0.85rem;
+        }
+
+        .example-row {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: var(--glass-bg);
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+
+        .example-time {
+            min-width: 60px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .example-german {
+            flex: 1;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        /* ========== GAME SCREEN ========== */
+        .game-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .game-header h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .game-header h1.unofficial {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .game-header h1.official {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Mode Selector */
+        .mode-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: var(--glass-bg);
+            border-radius: 16px;
+            padding: 6px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 12px;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mode-btn.active {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .mode-btn:not(.active):hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            background: var(--glass-bg);
+            border-radius: 16px;
+            padding: 15px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .stat-value.correct {
+            color: var(--accent-success);
+        }
+
+        .stat-value.incorrect {
+            color: var(--accent-error);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Clock Container */
+        .clock-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .clock {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #1e1e2a, #151520);
+            box-shadow:
+                0 10px 40px rgba(0, 0, 0, 0.5),
+                inset 0 2px 10px rgba(255, 255, 255, 0.05);
+            position: relative;
+            border: 3px solid var(--glass-border);
+        }
+
+        .clock-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+
+        .clock-center {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+        }
+
+        .hour-hand,
+        .minute-hand {
+            position: absolute;
+            background: linear-gradient(to top, var(--accent-primary), var(--accent-secondary));
+            border-radius: 4px;
+            transform-origin: bottom center;
+            left: 50%;
+            bottom: 50%;
+            box-shadow: 0 0 8px rgba(99, 102, 241, 0.4);
+        }
+
+        .hour-hand {
+            width: 5px;
+            height: 50px;
+            margin-left: -2.5px;
+        }
+
+        .minute-hand {
+            width: 3px;
+            height: 65px;
+            margin-left: -1.5px;
+        }
+
+        .clock-number {
+            position: absolute;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .clock-number.n12 {
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .clock-number.n1 {
+            top: 18px;
+            right: 30px;
+        }
+
+        .clock-number.n2 {
+            top: 42px;
+            right: 12px;
+        }
+
+        .clock-number.n3 {
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+        }
+
+        .clock-number.n4 {
+            bottom: 42px;
+            right: 12px;
+        }
+
+        .clock-number.n5 {
+            bottom: 18px;
+            right: 30px;
+        }
+
+        .clock-number.n6 {
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .clock-number.n7 {
+            bottom: 18px;
+            left: 30px;
+        }
+
+        .clock-number.n8 {
+            bottom: 42px;
+            left: 12px;
+        }
+
+        .clock-number.n9 {
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+        }
+
+        .clock-number.n10 {
+            top: 42px;
+            left: 12px;
+        }
+
+        .clock-number.n11 {
+            top: 18px;
+            left: 30px;
+        }
+
+        /* Digital Time Display */
+        .digital-time {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            font-family: 'Outfit', monospace;
+            text-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Answer Area */
+        .answer-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .instruction {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        .answer-slots {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            min-height: 50px;
+            background: var(--glass-bg);
+            border-radius: 16px;
+            padding: 12px;
+            border: 2px dashed var(--glass-border);
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .answer-slots.correct {
+            border-color: var(--accent-success);
+            background: rgba(34, 197, 94, 0.1);
+        }
+
+        .answer-slots.incorrect {
+            border-color: var(--accent-error);
+            background: rgba(239, 68, 68, 0.1);
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20%,
+            60% {
+                transform: translateX(-5px);
+            }
+
+            40%,
+            80% {
+                transform: translateX(5px);
+            }
+        }
+
+        .word-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .word-chip {
+            padding: 10px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .word-chip:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: var(--accent-primary);
+            transform: translateY(-2px);
+        }
+
+        .word-chip:active {
+            transform: scale(0.95);
+        }
+
+        .word-chip.selected {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .word-chip.in-answer {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* Feedback Section */
+        .feedback {
+            text-align: center;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .feedback.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .feedback.correct {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--accent-success);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .feedback.incorrect {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-error);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        /* Buttons */
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 14px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-secondary {
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Correct Answer Display */
+        .correct-answer-display {
+            text-align: center;
+            padding: 10px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        .correct-answer-display.show {
+            display: block;
+        }
+
+        .correct-answer-display span {
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 380px) {
+            .clock {
+                width: 150px;
+                height: 150px;
+            }
+
+            .hour-hand {
+                height: 40px;
+            }
+
+            .minute-hand {
+                height: 55px;
+            }
+
+            .word-chip {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
+
+            .home-header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- ========== HOME SCREEN ========== -->
+        <div class="screen active" id="homeScreen">
+            <div class="home-header">
+                <div class="clock-icon">🕐</div>
+                <h1>Die Uhrzeit</h1>
+                <p>Aprende a decir las horas en alemán</p>
+                <p style="font-size: 0.8rem; color: #8b5cf6; margin-top: 8px;">✨ GRACIAS A SERGIO ✨</p>
+            </div>
+
+            <div class="menu-section">
+                <h2>🎮 Modo de Juego</h2>
+                <div class="menu-card" onclick="startGame('unofficial')">
+                    <div class="menu-card-icon unofficial">🗣️</div>
+                    <div class="menu-card-content">
+                        <h3>Forma No Oficial</h3>
+                        <p>Coloquial: halb acht, Viertel vor...</p>
+                    </div>
+                    <span class="menu-card-arrow">→</span>
+                </div>
+                <div class="menu-card" onclick="startGame('official')">
+                    <div class="menu-card-icon official">📢</div>
+                    <div class="menu-card-content">
+                        <h3>Forma Oficial</h3>
+                        <p>Formal: sieben Uhr dreißig</p>
+                    </div>
+                    <span class="menu-card-arrow">→</span>
+                </div>
+            </div>
+
+            <div class="menu-section">
+                <h2>📚 Aprender</h2>
+                <div class="menu-card" onclick="showScreen('studyScreen')">
+                    <div class="menu-card-icon study">📖</div>
+                    <div class="menu-card-content">
+                        <h3>Sección de Estudio</h3>
+                        <p>Aprende las reglas de las horas</p>
+                    </div>
+                    <span class="menu-card-arrow">→</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== STUDY SCREEN ========== -->
+        <div class="screen" id="studyScreen">
+            <div class="study-header">
+                <button class="back-btn" onclick="showScreen('homeScreen')">←</button>
+                <h1>📚 Sección de Estudio</h1>
+            </div>
+
+            <div class="study-tabs">
+                <button class="study-tab active" onclick="showStudyTab('unofficial')">🗣️ No Oficial</button>
+                <button class="study-tab" onclick="showStudyTab('official')">📢 Oficial</button>
+            </div>
+
+            <div class="study-content">
+                <!-- UNOFFICIAL CONTENT -->
+                <div class="study-tab-content active" id="studyUnofficial">
+                    <div class="study-card">
+                        <h3>🗣️ ¿Qué es la forma No Oficial?</h3>
+                        <p>Es la forma <strong>coloquial</strong> que usas con amigos, familia y en situaciones
+                            cotidianas. Es más natural en conversaciones diarias.</p>
+                    </div>
+
+                    <div class="study-card">
+                        <h3>📐 Estructura básica</h3>
+                        <p><strong>Es ist</strong> + (expresión de tiempo)</p>
+
+                        <table class="time-table">
+                            <tr>
+                                <th>Min</th>
+                                <th>Expresión</th>
+                            </tr>
+                            <tr>
+                                <td>:00</td>
+                                <td>Es ist [hora] <strong>Uhr</strong></td>
+                            </tr>
+                            <tr>
+                                <td>:05</td>
+                                <td>Es ist fünf <strong>nach</strong> [hora]</td>
+                            </tr>
+                            <tr>
+                                <td>:10</td>
+                                <td>Es ist zehn <strong>nach</strong> [hora]</td>
+                            </tr>
+                            <tr>
+                                <td>:15</td>
+                                <td>Es ist <strong>Viertel nach</strong> [hora]</td>
+                            </tr>
+                            <tr>
+                                <td>:20</td>
+                                <td>Es ist zwanzig <strong>nach</strong> [hora]</td>
+                            </tr>
+                            <tr>
+                                <td>:25</td>
+                                <td>Es ist fünf vor <strong>halb</strong> [hora+1]</td>
+                            </tr>
+                            <tr>
+                                <td>:30</td>
+                                <td>Es ist <strong>halb</strong> [hora+1]</td>
+                            </tr>
+                            <tr>
+                                <td>:35</td>
+                                <td>Es ist fünf nach <strong>halb</strong> [hora+1]</td>
+                            </tr>
+                            <tr>
+                                <td>:40</td>
+                                <td>Es ist zwanzig <strong>vor</strong> [hora+1]</td>
+                            </tr>
+                            <tr>
+                                <td>:45</td>
+                                <td>Es ist <strong>Viertel vor</strong> [hora+1]</td>
+                            </tr>
+                            <tr>
+                                <td>:50</td>
+                                <td>Es ist zehn <strong>vor</strong> [hora+1]</td>
+                            </tr>
+                            <tr>
+                                <td>:55</td>
+                                <td>Es ist fünf <strong>vor</strong> [hora+1]</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="highlight-box">
+                        <h4>⚠️ ¡Muy importante!</h4>
+                        <p>En <strong>halb</strong> (media hora), se usa <strong>la hora siguiente</strong>:</p>
+                        <p>• 7:30 = halb <strong>acht</strong> (no halb sieben)</p>
+                        <p>• 9:30 = halb <strong>zehn</strong></p>
+                    </div>
+
+                    <div class="study-card">
+                        <h3>✏️ Ejemplos prácticos</h3>
+                        <div class="example-row">
+                            <span class="example-time">7:00</span>
+                            <span class="example-german">Es ist sieben Uhr</span>
+                        </div>
+                        <div class="example-row">
+                            <span class="example-time">7:15</span>
+                            <span class="example-german">Es ist Viertel nach sieben</span>
+                        </div>
+                        <div class="example-row">
+                            <span class="example-time">7:30</span>
+                            <span class="example-german">Es ist halb acht</span>
+                        </div>
+                        <div class="example-row">
+                            <span class="example-time">7:45</span>
+                            <span class="example-german">Es ist Viertel vor acht</span>
+                        </div>
+                        <div class="example-row">
+                            <span class="example-time">8:50</span>
+                            <span class="example-german">Es ist zehn vor neun</span>
+                        </div>
+                    </div>
+
+                    <div class="study-card">
+                        <h3>💡 Vocabulario clave</h3>
+                        <p><strong>nach</strong> = después de (para minutos 1-29)</p>
+                        <p><strong>vor</strong> = antes de (para minutos 31-59)</p>
+                        <p><strong>halb</strong> = media (¡con la hora siguiente!)</p>
+                        <p><strong>Viertel</strong> = cuarto (15 minutos)</p>
+                    </div>
+                </div>
+
+                <!-- OFFICIAL CONTENT -->
+                <div class="study-tab-content" id="studyOfficial">
+                    <div class="study-card">
+                        <h3>📢 ¿Qué es la forma Oficial?</h3>
+                        <p>Es la forma <strong>formal</strong> que se usa en estaciones, hospitales, aeropuertos, cines,
+                            anuncios y contextos profesionales.</p>
+                    </div>
+
+                    <div class="study-card">
+                        <h3>📐 Estructura básica</h3>
+                        <p><strong>Es ist</strong> + [hora] + <strong>Uhr</strong> + [minutos]</p>
+
+                        <div class="highlight-box info">
+                            <h4>ℹ️ Nota importante</h4>
+                            <p>Aunque el horario se muestra en formato 24h (como 14:30), verbalmente se dice usando
+                                números del 1-12.</p>
+                        </div>
+                    </div>
+
+                    <div class="study-card">
+                        <h3>✏️ Ejemplos prácticos</h3>
+                        <div class="example-row">
+                            <span class="example-time">07:00</span>
+                            <span class="example-german">Es ist sieben Uhr</span>
+                        </div>
+                        <div class="example-row">
+                            <span class="example-time">07:15</span>
+                            <span class="example-german">Es ist sieben Uhr fünfzehn</span>
+                        </div>
+                        <div class="example-row">
+                            <span class="example-time">07:30</span>
+                            <span class="example-german">Es ist sieben Uhr dreißig</span>
+                        </div>
+                        <div class="example-row">
+                            <span class="example-time">07:45</span>
+                            <span class="example-german">Es ist sieben Uhr fünfundvierzig</span>
+                        </div>
+                        <div class="example-row">
+                            <span class="example-time">21:45</span>
+                            <span class="example-german">Es ist neun Uhr fünfundvierzig</span>
+                        </div>
+                    </div>
+
+                    <div class="study-card">
+                        <h3>🔄 Comparación: Oficial vs No Oficial</h3>
+                        <table class="time-table">
+                            <tr>
+                                <th>Hora</th>
+                                <th>Oficial</th>
+                            </tr>
+                            <tr>
+                                <td>8:00</td>
+                                <td>acht Uhr</td>
+                            </tr>
+                            <tr>
+                                <td>8:05</td>
+                                <td>acht Uhr fünf</td>
+                            </tr>
+                            <tr>
+                                <td>8:15</td>
+                                <td>acht Uhr fünfzehn</td>
+                            </tr>
+                            <tr>
+                                <td>8:30</td>
+                                <td>acht Uhr dreißig</td>
+                            </tr>
+                            <tr>
+                                <td>8:45</td>
+                                <td>acht Uhr fünfundvierzig</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="highlight-box">
+                        <h4>⚠️ Diferencia con No Oficial</h4>
+                        <p>En la forma oficial <strong>NO</strong> usas "halb", "Viertel", "nach" ni "vor". Solo dices
+                            los números directamente.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== GAME SCREEN ========== -->
+        <div class="screen" id="gameScreen">
+            <div class="game-header">
+                <button class="back-btn" onclick="showScreen('homeScreen')">←</button>
+                <h1 id="gameModeTitle" class="unofficial">🗣️ Forma No Oficial</h1>
+            </div>
+
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-value" id="streak">0</div>
+                    <div class="stat-label">Racha</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value correct" id="correct">0</div>
+                    <div class="stat-label">Correctas</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value incorrect" id="incorrect">0</div>
+                    <div class="stat-label">Errores</div>
+                </div>
+            </div>
+
+            <div class="clock-container">
+                <div class="clock">
+                    <div class="clock-face">
+                        <span class="clock-number n12">12</span>
+                        <span class="clock-number n1">1</span>
+                        <span class="clock-number n2">2</span>
+                        <span class="clock-number n3">3</span>
+                        <span class="clock-number n4">4</span>
+                        <span class="clock-number n5">5</span>
+                        <span class="clock-number n6">6</span>
+                        <span class="clock-number n7">7</span>
+                        <span class="clock-number n8">8</span>
+                        <span class="clock-number n9">9</span>
+                        <span class="clock-number n10">10</span>
+                        <span class="clock-number n11">11</span>
+                    </div>
+                    <div class="hour-hand" id="hourHand"></div>
+                    <div class="minute-hand" id="minuteHand"></div>
+                    <div class="clock-center"></div>
+                </div>
+            </div>
+
+            <div class="digital-time" id="digitalTime">07:30</div>
+
+            <div class="answer-section">
+                <p class="instruction">Ordena las palabras para formar la hora correcta:</p>
+
+                <div class="answer-slots" id="answerSlots"></div>
+
+                <div class="word-options" id="wordOptions"></div>
+
+                <div class="feedback" id="feedback"></div>
+
+                <div class="correct-answer-display" id="correctAnswerDisplay">
+                    Respuesta correcta: <span id="correctAnswerText"></span>
+                </div>
+
+                <div class="buttons">
+                    <button class="btn btn-secondary" onclick="clearAnswer()">🔄 Limpiar</button>
+                    <button class="btn btn-primary" onclick="checkAnswer()">✓ Comprobar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== SCREEN MANAGEMENT ==========
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function showStudyTab(tab) {
+            document.querySelectorAll('.study-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.study-tab-content').forEach(c => c.classList.remove('active'));
+
+            if (tab === 'unofficial') {
+                document.querySelector('.study-tab:first-child').classList.add('active');
+                document.getElementById('studyUnofficial').classList.add('active');
+            } else {
+                document.querySelector('.study-tab:last-child').classList.add('active');
+                document.getElementById('studyOfficial').classList.add('active');
+            }
+        }
+
+        function startGame(mode) {
+            currentMode = mode;
+            stats = { streak: 0, correct: 0, incorrect: 0 };
+            updateStats();
+
+            const title = document.getElementById('gameModeTitle');
+            if (mode === 'unofficial') {
+                title.textContent = '🗣️ Forma No Oficial';
+                title.className = 'unofficial';
+            } else {
+                title.textContent = '📢 Forma Oficial';
+                title.className = 'official';
+            }
+
+            showScreen('gameScreen');
+            generateNewTime();
+        }
+
+        // ========== GAME LOGIC ==========
+        const numberWords = {
+            0: 'null', 1: 'eins', 2: 'zwei', 3: 'drei', 4: 'vier',
+            5: 'fünf', 6: 'sechs', 7: 'sieben', 8: 'acht', 9: 'neun',
+            10: 'zehn', 11: 'elf', 12: 'zwölf', 13: 'dreizehn', 14: 'vierzehn',
+            15: 'fünfzehn', 16: 'sechzehn', 17: 'siebzehn', 18: 'achtzehn',
+            19: 'neunzehn', 20: 'zwanzig', 21: 'einundzwanzig', 22: 'zweiundzwanzig',
+            23: 'dreiundzwanzig', 24: 'vierundzwanzig', 25: 'fünfundzwanzig',
+            26: 'sechsundzwanzig', 27: 'siebenundzwanzig', 28: 'achtundzwanzig',
+            29: 'neunundzwanzig', 30: 'dreißig', 31: 'einunddreißig',
+            32: 'zweiunddreißig', 33: 'dreiunddreißig', 34: 'vierunddreißig',
+            35: 'fünfunddreißig', 36: 'sechsunddreißig', 37: 'siebenunddreißig',
+            38: 'achtunddreißig', 39: 'neununddreißig', 40: 'vierzig',
+            41: 'einundvierzig', 42: 'zweiundvierzig', 43: 'dreiundvierzig',
+            44: 'vierundvierzig', 45: 'fünfundvierzig', 46: 'sechsundvierzig',
+            47: 'siebenundvierzig', 48: 'achtundvierzig', 49: 'neunundvierzig',
+            50: 'fünfzig', 51: 'einundfünfzig', 52: 'zweiundfünfzig',
+            53: 'dreiundfünfzig', 54: 'vierundfünfzig', 55: 'fünfundfünfzig',
+            56: 'sechsundfünfzig', 57: 'siebenundfünfzig', 58: 'achtundfünfzig',
+            59: 'neunundfünfzig'
+        };
+
+        const hourWords = {
+            1: 'eins', 2: 'zwei', 3: 'drei', 4: 'vier', 5: 'fünf',
+            6: 'sechs', 7: 'sieben', 8: 'acht', 9: 'neun', 10: 'zehn',
+            11: 'elf', 12: 'zwölf'
+        };
+
+        let currentMode = 'unofficial';
+        let currentHour = 7;
+        let currentMinute = 30;
+        let correctAnswer = [];
+        let selectedWords = [];
+        let stats = { streak: 0, correct: 0, incorrect: 0 };
+
+        const hourHand = document.getElementById('hourHand');
+        const minuteHand = document.getElementById('minuteHand');
+        const digitalTime = document.getElementById('digitalTime');
+        const answerSlots = document.getElementById('answerSlots');
+        const wordOptions = document.getElementById('wordOptions');
+        const feedback = document.getElementById('feedback');
+        const correctAnswerDisplay = document.getElementById('correctAnswerDisplay');
+        const correctAnswerText = document.getElementById('correctAnswerText');
+
+        function updateClock(hour, minute) {
+            const hourDeg = ((hour % 12) * 30) + (minute * 0.5);
+            const minuteDeg = minute * 6;
+
+            hourHand.style.transform = `rotate(${hourDeg}deg)`;
+            minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
+
+            const displayHour = String(hour).padStart(2, '0');
+            const displayMinute = String(minute).padStart(2, '0');
+            digitalTime.textContent = `${displayHour}:${displayMinute}`;
+        }
+
+        function getHour12(hour) {
+            if (hour === 0) return 12;
+            if (hour > 12) return hour - 12;
+            return hour;
+        }
+
+        function getNextHour12(hour) {
+            const h12 = getHour12(hour);
+            return h12 === 12 ? 1 : h12 + 1;
+        }
+
+        function generateUnofficialTime(hour, minute) {
+            const h12 = getHour12(hour);
+            const nextH = getNextHour12(hour);
+            const roundedMinute = Math.round(minute / 5) * 5;
+
+            switch (roundedMinute) {
+                case 0: return ['Es', 'ist', hourWords[h12], 'Uhr'];
+                case 5: return ['Es', 'ist', 'fünf', 'nach', hourWords[h12]];
+                case 10: return ['Es', 'ist', 'zehn', 'nach', hourWords[h12]];
+                case 15: return ['Es', 'ist', 'Viertel', 'nach', hourWords[h12]];
+                case 20: return ['Es', 'ist', 'zwanzig', 'nach', hourWords[h12]];
+                case 25: return ['Es', 'ist', 'fünf', 'vor', 'halb', hourWords[nextH]];
+                case 30: return ['Es', 'ist', 'halb', hourWords[nextH]];
+                case 35: return ['Es', 'ist', 'fünf', 'nach', 'halb', hourWords[nextH]];
+                case 40: return ['Es', 'ist', 'zwanzig', 'vor', hourWords[nextH]];
+                case 45: return ['Es', 'ist', 'Viertel', 'vor', hourWords[nextH]];
+                case 50: return ['Es', 'ist', 'zehn', 'vor', hourWords[nextH]];
+                case 55: return ['Es', 'ist', 'fünf', 'vor', hourWords[nextH]];
+                case 60: return ['Es', 'ist', hourWords[nextH], 'Uhr'];
+                default: return ['Es', 'ist', hourWords[h12], 'Uhr'];
+            }
+        }
+
+        function generateOfficialTime(hour, minute) {
+            const h12 = getHour12(hour);
+
+            if (minute === 0) {
+                return ['Es', 'ist', hourWords[h12], 'Uhr'];
+            } else {
+                return ['Es', 'ist', hourWords[h12], 'Uhr', numberWords[minute]];
+            }
+        }
+
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function generateNewTime() {
+            selectedWords = [];
+            feedback.className = 'feedback';
+            correctAnswerDisplay.classList.remove('show');
+            answerSlots.className = 'answer-slots';
+
+            if (currentMode === 'unofficial') {
+                currentHour = Math.floor(Math.random() * 12) + 1;
+                currentMinute = Math.floor(Math.random() * 12) * 5;
+            } else {
+                currentHour = Math.floor(Math.random() * 24);
+                const useCommon = Math.random() > 0.3;
+                currentMinute = useCommon ? Math.floor(Math.random() * 12) * 5 : Math.floor(Math.random() * 60);
+            }
+
+            updateClock(currentHour, currentMinute);
+
+            correctAnswer = currentMode === 'unofficial'
+                ? generateUnofficialTime(currentHour, currentMinute)
+                : generateOfficialTime(currentHour, currentMinute);
+
+            let allWords = [...correctAnswer];
+            const distractors = generateDistractors();
+            distractors.forEach(word => {
+                if (!allWords.includes(word)) allWords.push(word);
+            });
+
+            renderWordOptions(shuffleArray(allWords));
+            renderAnswerSlots();
+        }
+
+        function generateDistractors() {
+            const distractors = [];
+
+            if (currentMode === 'unofficial') {
+                const common = ['vor', 'nach', 'halb', 'Viertel', 'Uhr'];
+                const times = ['fünf', 'zehn', 'zwanzig'];
+                distractors.push(...common.slice(0, 2));
+                distractors.push(hourWords[Math.floor(Math.random() * 12) + 1]);
+                distractors.push(times[Math.floor(Math.random() * times.length)]);
+            } else {
+                distractors.push(numberWords[Math.floor(Math.random() * 60)]);
+                distractors.push(hourWords[Math.floor(Math.random() * 12) + 1]);
+                distractors.push('Uhr');
+            }
+
+            return distractors;
+        }
+
+        function renderWordOptions(words) {
+            wordOptions.innerHTML = '';
+            words.forEach((word, index) => {
+                const chip = document.createElement('div');
+                chip.className = 'word-chip';
+                chip.textContent = word;
+                chip.dataset.index = index;
+                chip.dataset.word = word;
+                chip.onclick = () => selectWord(chip, word);
+                wordOptions.appendChild(chip);
+            });
+        }
+
+        function renderAnswerSlots() {
+            answerSlots.innerHTML = '';
+            selectedWords.forEach((word, index) => {
+                const chip = document.createElement('div');
+                chip.className = 'word-chip selected';
+                chip.textContent = word;
+                chip.onclick = () => removeWord(index);
+                answerSlots.appendChild(chip);
+            });
+        }
+
+        function selectWord(element, word) {
+            if (element.classList.contains('in-answer')) return;
+            selectedWords.push(word);
+            element.classList.add('in-answer');
+            renderAnswerSlots();
+        }
+
+        function removeWord(index) {
+            const removedWord = selectedWords[index];
+            selectedWords.splice(index, 1);
+
+            const chips = document.querySelectorAll('#wordOptions .word-chip');
+            for (const chip of chips) {
+                if (chip.dataset.word === removedWord && chip.classList.contains('in-answer')) {
+                    chip.classList.remove('in-answer');
+                    break;
+                }
+            }
+
+            renderAnswerSlots();
+        }
+
+        function clearAnswer() {
+            selectedWords = [];
+            document.querySelectorAll('.word-chip').forEach(chip => chip.classList.remove('in-answer'));
+            renderAnswerSlots();
+            feedback.className = 'feedback';
+            correctAnswerDisplay.classList.remove('show');
+            answerSlots.className = 'answer-slots';
+        }
+
+        function checkAnswer() {
+            if (selectedWords.length === 0) return;
+
+            const isCorrect = JSON.stringify(selectedWords) === JSON.stringify(correctAnswer);
+
+            if (isCorrect) {
+                stats.correct++;
+                stats.streak++;
+                feedback.textContent = '🎉 ¡Perfecto! Sehr gut!';
+                feedback.className = 'feedback correct show';
+                answerSlots.classList.add('correct');
+                setTimeout(() => generateNewTime(), 1500);
+            } else {
+                stats.incorrect++;
+                stats.streak = 0;
+                feedback.textContent = '❌ ¡Inténtalo de nuevo!';
+                feedback.className = 'feedback incorrect show';
+                answerSlots.classList.add('incorrect');
+                correctAnswerText.textContent = correctAnswer.join(' ');
+                correctAnswerDisplay.classList.add('show');
+            }
+
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('streak').textContent = stats.streak;
+            document.getElementById('correct').textContent = stats.correct;
+            document.getElementById('incorrect').textContent = stats.incorrect;
+        }
+
+        // Add CSS for study tab content
+        const style = document.createElement('style');
+        style.textContent = `
+            .study-tab-content {
+                display: none;
+            }
+            .study-tab-content.active {
+                display: block;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+
+</html>
